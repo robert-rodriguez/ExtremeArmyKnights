@@ -1,4 +1,5 @@
 
+
 import ucigame.*;
 import java.util.ArrayList;
 
@@ -28,24 +29,24 @@ public class LevelTest extends Ucigame
 		
 		framerate(60);
 		
-		square = makeSprite(getImage("images/square.png", 0, 255, 255));
+		square = makeSprite(getImage("art/square.png", 0, 255, 255));
 		square.position(0, 150);
 		
 		airTime = 0;
 		
-		Sprite screen1 = makeSprite(getImage("images/screen1.png", 0, 255, 255));
+		Sprite screen1 = makeSprite(getImage("art/screen1.png", 0, 255, 255));
 		screen1.position(0, 0);
 		
-		Sprite screen2 = makeSprite(getImage("images/screen2.png", 0, 255, 255));
+		Sprite screen2 = makeSprite(getImage("art/screen2.png", 0, 255, 255));
 		screen2.position(0, 0);
 		
-		Sprite floor1 =  makeSprite(getImage("images/floor.png", 0, 255, 255));
+		Sprite floor1 =  makeSprite(getImage("art/floor.png", 0, 255, 255));
 		floor1.position(0, canvas.height() - floor1.height());
 		
-		Sprite floor2 =  makeSprite(getImage("images/floor.png", 0, 255, 255));
+		Sprite floor2 =  makeSprite(getImage("art/floor.png", 0, 255, 255));
 		floor2.position(canvas.width() - floor2.width(), canvas.height() - floor2.height());
 		
-		Sprite floor3 =  makeSprite(getImage("images/platform.png", 0, 255, 255));
+		Sprite floor3 =  makeSprite(getImage("art/platform.png", 0, 255, 255));
 		floor3.position(canvas.width()/2 - floor3.width()/2, 4*canvas.height()/5);
 		
 		index = 0;
