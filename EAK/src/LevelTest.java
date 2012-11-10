@@ -7,31 +7,32 @@ public class LevelTest extends Ucigame
 	//constants
 	int windowW = 1279;
 	int windowH = 222;
-	
+
 	int gravity = 4;
 	int maxAir = 11;
-	
+
 	Sprite square;
 	int airTime;
-	
+
 	ArrayList<Sprite> screens = new ArrayList<Sprite>();
 	int index;
-	
+
 	//floors are any non-enemy, background sprites that give jumps back
 	ArrayList<Sprite> floors = new ArrayList<Sprite>();
-	
-	
+
+
 	public void setup()
 	{
 		window.size(windowW, windowH);
 		window.title("Level Testing");
-		
+
 		framerate(60);
-		
+
 		//square = makeSprite(getImage("images/RiflemanR.gif", 0, 255, 255));
 		//square.position(0, 150);
+		
 		square = makeSprite(39, 53);
-		square.addFrames(getImage("images/ray.png", 0, 255, 255),
+		square.addFrames(getImage("images/player/ray.png", 0, 255, 255),
 				0, 0,
 				39, 0,
 				78, 0,
@@ -39,45 +40,58 @@ public class LevelTest extends Ucigame
 				156, 0,
 				195, 0);
 		square.framerate(10);
-		
+
+		/*
+		//Un-Comment this part and comment the top sprite to see new char, tho this guy has some bugs
+		//New Player Char -> Mega Man X
+		square = makeSprite(42,53);
+		square.addFrames(getImage("images/player/character/xSprite_running.png", 0, 255, 255),
+				0, 0,
+				37, 0,
+				77, 0,
+				115, 0,
+				178, 0,
+				226, 0);		
+		square.framerate(10);
+		*/
 		airTime = 0;
-		
+
 		/*Sprite screen1 = makeSprite(getImage("images/screen1.png", 0, 255, 255));
 		screen1.position(0, 0);
-		
+
 		Sprite screen2 = makeSprite(getImage("images/screen2.png", 0, 255, 255));
 		screen2.position(0, 0);*/
-		
-		Sprite screen1 = makeSprite(getImage("images/Sample1.png", 0, 255, 255));
+
+		Sprite screen1 = makeSprite(getImage("level 1/floors/Sample1.png", 0, 255, 255));
 		screen1.position(0, 0);
-		
-		Sprite screen2 = makeSprite(getImage("images/level1_02.jpg", 0, 255, 255));
+
+		Sprite screen2 = makeSprite(getImage("level 1/floors/level1_02.jpg", 0, 255, 255));
 		screen2.position(0, 0);
-		
-		Sprite screen3 = makeSprite(getImage("images/level1_03.jpg", 0, 255, 255));
+
+		Sprite screen3 = makeSprite(getImage("level 1/floors/level1_03.jpg", 0, 255, 255));
 		screen3.position(0, 0);
-		
-		Sprite floor1 =  makeSprite(getImage("images/floor.png", 0, 255, 255));
+
+		Sprite floor1 =  makeSprite(getImage("level 1/floors/floor.png", 0, 255, 255));
 		floor1.position(0, canvas.height() - floor1.height());
-		
-		Sprite floor2 =  makeSprite(getImage("images/floor1_2.png", 0, 255, 255));
+
+		Sprite floor2 =  makeSprite(getImage("level 1/floors/floor1_2.png", 0, 255, 255));
 		floor2.position(floor1.width(), canvas.height() - floor2.height());
-		
-		Sprite floor3 =  makeSprite(getImage("images/floor1_3.png", 0, 255, 255));
+
+		Sprite floor3 =  makeSprite(getImage("level 1/floors/floor1_3.png", 0, 255, 255));
 		floor3.position(floor1.width() + floor2.width(), canvas.height() - floor3.height());
-		
-		Sprite floor4 = makeSprite(getImage("images/floor1_4.png", 0, 255, 255));
+
+		Sprite floor4 = makeSprite(getImage("level 1/floors/floor1_4.png", 0, 255, 255));
 		floor4.position(floor1.width() + floor2.width() + floor3.width(), canvas.height() - floor4.height());
-		
-		Sprite floor5 = makeSprite(getImage("images/floor1_5.png", 0, 255, 255));
+
+		Sprite floor5 = makeSprite(getImage("level 1/floors/floor1_5.png", 0, 255, 255));
 		floor5.position(floor1.width() + floor2.width() + floor3.width() + floor4.width(), canvas.height() - floor5.height());
-		
-		Sprite floor6 = makeSprite(getImage("images/floor1_6.png", 0, 255, 255));
+
+		Sprite floor6 = makeSprite(getImage("level 1/floors/floor1_6.png", 0, 255, 255));
 		floor6.position(1098, 124);
-		
-		Sprite floor7 = makeSprite(getImage("images/floor1_7.png", 0, 255, 255));
+
+		Sprite floor7 = makeSprite(getImage("level 1/floors/floor1_7.png", 0, 255, 255));
 		floor7.position(canvas.width() - floor7.width(), canvas.height() - floor7.height());
-		
+
 		index = 0;
 		/*screens.add(screen1);
 		screens.add(screen2);
@@ -86,7 +100,7 @@ public class LevelTest extends Ucigame
 		screens.add(screen1);
 		screens.add(screen2);
 		screens.add(screen3);
-		
+
 		floors.add(floor1);
 		floors.add(floor2);
 		floors.add(floor3);
@@ -94,33 +108,33 @@ public class LevelTest extends Ucigame
 		floors.add(floor5);
 		floors.add(floor6);
 		floors.add(floor7);
-		
+
 		startScene("PlayTest");
 	}
-	
+
 	public void drawPlayTest()
 	{
 		canvas.clear();
-		
+
 		if(index < screens.size() && !screens.isEmpty())
 		{
 			screens.get(index).draw();
 		}
-		
+
 		for(int i = 0; i < floors.size(); i++)
 		{
 			floors.get(i).draw();
 		}
-		
+
 		square.draw();
-		
+
 		//player movement and gravity
 		square.move();
-		
+
 		if(square.y() > canvas.height())
 		{
 			square.nextY(canvas.height());
-			
+
 			//restarts game
 			setup();
 		}
@@ -128,12 +142,12 @@ public class LevelTest extends Ucigame
 		{
 			square.motion(0, 4);
 		}
-		
+
 		if(square.yspeed() < -8)
 		{
 			square.motion(square.xspeed(), 0);
 		}
-		
+
 		//collisions with floors
 		for(int f = 0; f < floors.size(); f++)
 		{
@@ -161,7 +175,7 @@ public class LevelTest extends Ucigame
 				}
 			}
 		}
-		
+
 		//screen change is handled here
 		if(square.x() >= canvas.width())//- square.width())
 		{
@@ -172,7 +186,7 @@ public class LevelTest extends Ucigame
 			square.position(0, square.y());
 		}
 	}
-	
+
 	public void onKeyPressPlayTest()
 	{
 		//if(keyboard.isDown(keyboard.UP))
@@ -190,7 +204,7 @@ public class LevelTest extends Ucigame
 					//square.position(square.x(), 0);
 					square.nextY(0);
 				}
-				
+
 				airTime++;
 			}
 		}
