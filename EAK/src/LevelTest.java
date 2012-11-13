@@ -1,5 +1,7 @@
 
 import ucigame.*;
+
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class LevelTest extends Ucigame
@@ -19,29 +21,34 @@ public class LevelTest extends Ucigame
 
 	//floors are any non-enemy, background sprites that give jumps back
 	ArrayList<Sprite> floors = new ArrayList<Sprite>();
+	
+	Monster monster;
 
 
 	public void setup()
 	{
 		window.size(windowW, windowH);
 		window.title("Level Testing");
-
+		
+		monster = new Monster(getImage("art/dead_nite.png",255,255,255), new Point2D.Double(100, 100));
+		monster.patrolPath(new Point2D.Double(200, 100), 1);
+		
 		framerate(60);
 
 		//square = makeSprite(getImage("images/RiflemanR.gif", 0, 255, 255));
 		//square.position(0, 150);
 		
-		square = makeSprite(39, 53);
-		square.addFrames(getImage("images/player/ray.png", 0, 255, 255),
-				0, 0,
-				39, 0,
-				78, 0,
-				117, 0,
-				156, 0,
-				195, 0);
-		square.framerate(10);
+//		square = makeSprite(39, 53);
+//		square.addFrames(getImage("images/player/ray.png", 0, 255, 255),
+//				0, 0,
+//				39, 0,
+//				78, 0,
+//				117, 0,
+//				156, 0,
+//				195, 0);
+//		square.framerate(10);
 
-		/*
+		
 		//Un-Comment this part and comment the top sprite to see new char, tho this guy has some bugs
 		//New Player Char -> Mega Man X
 		square = makeSprite(42,53);
@@ -53,7 +60,7 @@ public class LevelTest extends Ucigame
 				178, 0,
 				226, 0);		
 		square.framerate(10);
-		*/
+		
 		airTime = 0;
 
 		/*Sprite screen1 = makeSprite(getImage("images/screen1.png", 0, 255, 255));
@@ -127,9 +134,21 @@ public class LevelTest extends Ucigame
 		}
 
 		square.draw();
+		
+		monster.patrol();
+		
+		monster.draw();
+		
+		monster.move();
 
 		//player movement and gravity
 		square.move();
+		
+		square.checkIfCollidesWith(monster);
+		if (square.collided()){
+			setup();
+		}
+		
 
 		if(square.y() > canvas.height())
 		{
