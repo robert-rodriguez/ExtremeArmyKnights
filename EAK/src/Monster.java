@@ -40,11 +40,6 @@ public class Monster extends Sprite {
 	}	
 	
 	public void patrol(){
-
-		System.out.println(this.x());
-		System.out.println(this.y());
-		this.yspeed();
-		this.xspeed();
 		
 		if((this.x()+this.xspeed() < start.x )|| (this.x()+this.xspeed() > end.x)){
 			this.motion(-1, 1, ucigame.Ucigame.MULTIPLY);

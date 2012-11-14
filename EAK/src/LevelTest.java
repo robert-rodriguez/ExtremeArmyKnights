@@ -2,6 +2,8 @@
 import ucigame.*;
 
 import java.awt.geom.Point2D;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class LevelTest extends Ucigame
@@ -11,7 +13,7 @@ public class LevelTest extends Ucigame
 	int windowH = 222;
 
 	int gravity = 4;
-	int maxAir = 11;
+	int maxAir = 30;
 
 	Sprite square;
 	int airTime;
@@ -29,17 +31,22 @@ public class LevelTest extends Ucigame
 	{
 		window.size(windowW, windowH);
 		window.title("Level Testing");
-		
-		monster = new Monster(getImage("art/dead_nite.png",255,255,255), new Point2D.Double(100, 100));
+		try {
+			System.out.println(new File(".").getCanonicalPath());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		monster = new Monster(getImage("src/art/dead_nite.png",255,255,255), new Point2D.Double(100, 100));
 		monster.patrolPath(new Point2D.Double(200, 100), 1);
 		
 		framerate(60);
 
-		//square = makeSprite(getImage("images/RiflemanR.gif", 0, 255, 255));
+		//square = makeSprite(getImage("src/images/RiflemanR.gif", 0, 255, 255));
 		//square.position(0, 150);
 		
 //		square = makeSprite(39, 53);
-//		square.addFrames(getImage("images/player/ray.png", 0, 255, 255),
+//		square.addFrames(getImage("src/images/player/ray.png", 0, 255, 255),
 //				0, 0,
 //				39, 0,
 //				78, 0,
@@ -52,7 +59,7 @@ public class LevelTest extends Ucigame
 		//Un-Comment this part and comment the top sprite to see new char, tho this guy has some bugs
 		//New Player Char -> Mega Man X
 		square = makeSprite(42,53);
-		square.addFrames(getImage("images/player/character/xSprite_running.png", 0, 255, 255),
+		square.addFrames(getImage("src/images/player/character/xSprite_running.png", 0, 255, 255),
 				0, 0,
 				37, 0,
 				77, 0,
@@ -63,40 +70,40 @@ public class LevelTest extends Ucigame
 		
 		airTime = 0;
 
-		/*Sprite screen1 = makeSprite(getImage("images/screen1.png", 0, 255, 255));
+		/*Sprite screen1 = makeSprite(getImage("src/images/screen1.png", 0, 255, 255));
 		screen1.position(0, 0);
 
-		Sprite screen2 = makeSprite(getImage("images/screen2.png", 0, 255, 255));
+		Sprite screen2 = makeSprite(getImage("src/images/screen2.png", 0, 255, 255));
 		screen2.position(0, 0);*/
 
-		Sprite screen1 = makeSprite(getImage("level 1/floors/Sample1.png", 0, 255, 255));
+		Sprite screen1 = makeSprite(getImage("src/level 1/floors/Sample1.png", 0, 255, 255));
 		screen1.position(0, 0);
 
-		Sprite screen2 = makeSprite(getImage("level 1/floors/level1_02.jpg", 0, 255, 255));
+		Sprite screen2 = makeSprite(getImage("src/level 1/floors/level1_02.jpg", 0, 255, 255));
 		screen2.position(0, 0);
 
-		Sprite screen3 = makeSprite(getImage("level 1/floors/level1_03.jpg", 0, 255, 255));
+		Sprite screen3 = makeSprite(getImage("src/level 1/floors/level1_03.jpg", 0, 255, 255));
 		screen3.position(0, 0);
 
-		Sprite floor1 =  makeSprite(getImage("level 1/floors/floor.png", 0, 255, 255));
+		Sprite floor1 =  makeSprite(getImage("src/level 1/floors/floor.png", 0, 255, 255));
 		floor1.position(0, canvas.height() - floor1.height());
 
-		Sprite floor2 =  makeSprite(getImage("level 1/floors/floor1_2.png", 0, 255, 255));
+		Sprite floor2 =  makeSprite(getImage("src/level 1/floors/floor1_2.png", 0, 255, 255));
 		floor2.position(floor1.width(), canvas.height() - floor2.height());
 
-		Sprite floor3 =  makeSprite(getImage("level 1/floors/floor1_3.png", 0, 255, 255));
+		Sprite floor3 =  makeSprite(getImage("src/level 1/floors/floor1_3.png", 0, 255, 255));
 		floor3.position(floor1.width() + floor2.width(), canvas.height() - floor3.height());
 
-		Sprite floor4 = makeSprite(getImage("level 1/floors/floor1_4.png", 0, 255, 255));
+		Sprite floor4 = makeSprite(getImage("src/level 1/floors/floor1_4.png", 0, 255, 255));
 		floor4.position(floor1.width() + floor2.width() + floor3.width(), canvas.height() - floor4.height());
 
-		Sprite floor5 = makeSprite(getImage("level 1/floors/floor1_5.png", 0, 255, 255));
+		Sprite floor5 = makeSprite(getImage("src/level 1/floors/floor1_5.png", 0, 255, 255));
 		floor5.position(floor1.width() + floor2.width() + floor3.width() + floor4.width(), canvas.height() - floor5.height());
 
-		Sprite floor6 = makeSprite(getImage("level 1/floors/floor1_6.png", 0, 255, 255));
+		Sprite floor6 = makeSprite(getImage("src/level 1/floors/floor1_6.png", 0, 255, 255));
 		floor6.position(1098, 124);
 
-		Sprite floor7 = makeSprite(getImage("level 1/floors/floor1_7.png", 0, 255, 255));
+		Sprite floor7 = makeSprite(getImage("src/level 1/floors/floor1_7.png", 0, 255, 255));
 		floor7.position(canvas.width() - floor7.width(), canvas.height() - floor7.height());
 
 		index = 0;
