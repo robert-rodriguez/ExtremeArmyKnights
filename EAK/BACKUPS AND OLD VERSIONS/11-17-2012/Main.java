@@ -5,73 +5,58 @@ import java.util.ArrayList;
 
 public class Main extends Ucigame
 {
-	
 	//constants and other
-	//global variable
+	//global variable;
 	///////////
-	
+
 	int windowW = 1279;
 	int windowH = 300;
-	
-	int gravity = 4;
+
+	int gravity = 3;
 	int maxAir = 15;
-	
+
 	int speed = 4;
-	
+
 	int frameCounter = 0;
-	int frameMod = 2400;
-	
+
 	boolean isGameplay = false;
 	boolean isMarathon = true;
-	
+
 	int currentLevel = 0;
 	int maxLevels = 2;
-	
+
 	boolean leftPressed = false;
 	boolean rightPressed = false;
-	
-	boolean fireOK = false;
-	
-	int currentPowerup = 0;
-	
+
 	//these get initialized in setup
 	//(also, these are variables that
 	//need to be re-initialized to a
 	//specific starting state)
 	///////////////////////////////
-	
+
 	Sprite player;
-	int playerHealth;
 	int airTime;
 	boolean isRunning;
 	boolean isFacingLeft;
 	boolean isFacingRight;
 	boolean isFiring;
-	
+
 	ArrayList<Sprite> screens;
 	int index;
-	
+
 	//floors are any non-enemy, background sprites that give jumps back
 	ArrayList<Sprite> floors;
 	int floorDrawLimit;
-	
-	ArrayList<Bullet> bullets;
-	
-	ArrayList<Monster> monsters;
-	int monsterDrawLimit;
-	
-	ArrayList<Powerup> powerups;
-	int powerupDrawLimit;
-	
-	
+
+
 	//set up things
 	public void setup()
 	{
 		window.size(windowW, windowH);
 		window.title("Extreme Army Knights");
-		
+
 		framerate(60);
-		
+
 		player = makeSprite(34, 35);
 		player.addFrames(getImage("images/player.png", 0, 255, 255),
 				5, 3,
@@ -105,44 +90,37 @@ public class Main extends Ucigame
 		player.defineSequence("StandFiring", 12);
 		player.defineSequence("RunFiring", 13,14,15,
 				16,17,18,19,20,21,22);
-		
+
+
 		airTime = 0;
 		isRunning = false;
 		isFacingLeft = false;
 		isFacingRight = true;
 		isFiring = false;
-		
+
 		screens = new ArrayList<Sprite>();
 		index = 0;
-		
+
 		floors = new ArrayList<Sprite>();
 		floorDrawLimit = 0;
-		
-		bullets = new ArrayList<Bullet>();
-		
-		monsters = new ArrayList<Monster>();
-		monsterDrawLimit = 0;
-		
-		powerups = new ArrayList<Powerup>();
-		powerupDrawLimit = 0;
-		
+
 		//chooses the level
 		switch(currentLevel)
 		{
-			case 0:
-				level1Setup();
-				break;
-			case 1:
-				level2Setup();
-				break;
+		case 0:
+			level1Setup();
+			break;
+		case 1:
+			level2Setup();
+			break;
 		}
 	}
-	
-	
+
+
 	/////////
 	//Level 1
 	/////////
-	
+
 	public void level1Setup()
 	{
 		//change and set the starting point for the player
@@ -165,10 +143,10 @@ public class Main extends Ucigame
 
 		Sprite screen5 = makeSprite(getImage("images/level1/screen5/Level1_Screen5.png", 0, 255, 255));
 		screen5.position(0, 0);
-		
+
 		Sprite screen6 = makeSprite(getImage("images/level1/screen6/Level1_Screen6.png", 0, 255, 255));
 		screen6.position(0, 0);
-		
+
 		Sprite screen7 = makeSprite(getImage("images/level1/screen7/Level1_Screen7.png", 0, 255, 255));
 		screen7.position(0, 0);
 
@@ -418,7 +396,7 @@ public class Main extends Ucigame
 		floors.add(floor5_06);
 		floors.add(floor5_07);
 		floors.add(floor5_08);
-		
+
 		//Screen 6
 		position = 0;
 		Sprite floor6_01 = makeSprite(getImage("images/level1/screen6/floor6_1.png", 0, 255, 255));
@@ -456,7 +434,7 @@ public class Main extends Ucigame
 		floors.add(floor6_05);
 		floors.add(floor6_06);
 		floors.add(floor6_07);
-		
+
 		//Screen 7
 		position = 0;
 		Sprite floor7_01 = makeSprite(getImage("images/level1/screen7/floor7_1.png", 0, 255, 255));
@@ -492,152 +470,93 @@ public class Main extends Ucigame
 		
 		floors.add(floor8_01);
 		floors.add(floor8_02);
-		
-		
-		
-		
-		
-		//Monsters
-		/////////
-		
-		//1
-		Monster monster1_01 = new Monster(0, frameCounter, getImage("images/goomba.png", 0, 255, 255),
-				15, 17);
-		monster1_01.position(700, 240);
-		
-		monsters.add(monster1_01);
-		
-		//powerups
-		//////////
-		
-		//1
-		Powerup power1_01 = new Powerup(1, getImage("images/powerups.png", 0, 255, 255), 20, 20);
-		power1_01.position(320, canvas.height() - 35);
-		
-		powerups.add(power1_01);
-		
+
 		startScene("Level1");
 	}
-	
+
 	public void drawLevel1()
 	{
 		canvas.clear();
-		
+
 		drawScreens();
-		
+
 		//draw the floors for the specified screen
 		switch(index)
 		{
-			case 0:
-				floorDrawLimit = 7;//7 floor objects in screen1
-				powerupDrawLimit = 1;
-				monsterDrawLimit = 1;
-				break;
-			case 1:
-				floorDrawLimit = 12;//12 floor objects in screen2
-				powerupDrawLimit = 0;
-				monsterDrawLimit = 0;
-				break;
-			case 2:
-				floorDrawLimit = 11;//11 floor objects in screen3
-				powerupDrawLimit = 0;
-				monsterDrawLimit = 0;
-				break;
-			case 3:
-				floorDrawLimit = 4;//4 floor objects in screen 4
-				powerupDrawLimit = 0;
-				monsterDrawLimit = 0;
-				break;
-			case 4:
-				floorDrawLimit = 8;//8 floor objects in screen 5
-				powerupDrawLimit = 0;
-				monsterDrawLimit = 0;
-				break;
-			case 5:
-				floorDrawLimit = 7;//7 floor objects in screen 6
-				powerupDrawLimit = 0;
-				monsterDrawLimit = 0;
-				break;
-			case 6:
-				floorDrawLimit = 4;//4 floor objects in screen 7
-				powerupDrawLimit = 0;
-				monsterDrawLimit = 0;
-				break;
-			case 7:
-				floorDrawLimit = 2;//7 floor objects in screen 8
-				powerupDrawLimit = 0;
-				monsterDrawLimit = 0;
-				break;
-			default:
-				floorDrawLimit = 0;
-				powerupDrawLimit = 0;
-				monsterDrawLimit = 0;
+		case 0:
+			floorDrawLimit = 7;//7 floor objects in screen1
+			break;
+		case 1:
+			floorDrawLimit = 12;//12 floor objects in screen2
+			break;
+		case 2:
+			floorDrawLimit = 11;//11 floor objects in screen3
+			break;
+		case 3:
+			floorDrawLimit = 4;//4 floor objects in screen 4
+			break;
+		case 4:
+			floorDrawLimit = 8;//8 floor objects in screen 5
+			break;
+		case 5:
+			floorDrawLimit = 7;//7 floor objects in screen 6
+			break;
+		case 6:
+			floorDrawLimit = 4;//4 floor objects in screen 7
+			break;
+		case 7:
+			floorDrawLimit = 2;//7 floor objects in screen 8
+			break;
+		default:
+			floorDrawLimit = 0;
 		}
-		
+
 		drawFloors();
-		
-		drawPlayer();
-		
-		drawPowerups();
-		
-		drawMonsters();
-		
-		drawBullets();
-		
+
+		animationCheck();
+
 		playerMovement();
-		
-		bulletMovement();
-		
-		monsterMovement();
-		
-		playerFloorCollision();
-		
-		monsterFloorCollision();
-		
-		bulletCollision();
-		
-		playerMonsterCollision();
-		
-		powerupCollision();
-		
+
+		floorCollision();
+
 		screenChange();
-		
+
 		incrementFrames();
 	}
-	
+
 	public void onKeyPressLevel1()
 	{
 		keyPressLevels();
 	}
-	
-	
+
+
 	/////////
 	//Level 2
 	/////////
-	
+
 	public void level2Setup()
 	{
 		startScene("Level2");
 	}
-	
+
 	public void drawLevel2()
 	{
 		canvas.clear();
-		
+
 		//TODO level 2
 		canvas.background(0, 255, 255);
 	}
-	
+
 	public void onKeyPressLevel2()
 	{
 		keyPressLevels();
 	}
-	
-	
+
+
 	////////////////////
 	//Level Functions
 	////////////////////
-	
+
 	//Key press in levels handles here
 	//////////////////////////////////
 	public void keyPressLevels()
@@ -654,7 +573,7 @@ public class Main extends Ucigame
 				{
 					player.nextY(0);
 				}
-				
+
 				airTime++;
 			}
 		}
@@ -662,9 +581,9 @@ public class Main extends Ucigame
 		{
 			isFacingLeft = false;
 			isFacingRight = true;
-			
+
 			rightPressed = true;
-			
+
 			if(leftPressed)
 			{
 				isRunning = false;
@@ -673,16 +592,16 @@ public class Main extends Ucigame
 			{
 				isRunning = true;
 			}
-			
+
 			player.motion(speed, 0, ADDONCE);
 		}
 		if(keyboard.isDown(keyboard.LEFT))
 		{
 			isFacingLeft = true;
 			isFacingRight = false;
-			
+
 			leftPressed = true;
-			
+
 			if(rightPressed)
 			{
 				isRunning = false;
@@ -691,7 +610,7 @@ public class Main extends Ucigame
 			{
 				isRunning = true;
 			}
-			
+
 			if(player.x() >= 4)
 			{
 				player.motion(-speed, 0, ADDONCE);
@@ -704,48 +623,9 @@ public class Main extends Ucigame
 		if(keyboard.isDown(keyboard.F))
 		{
 			isFiring = true;
-			
-			int d = 0;
-			
-			if(isFacingLeft)
-			{
-				d = 1;
-			}
-			else if(isFacingRight)
-			{
-				d = 0;
-			}
-			
-			Bullet newBullet =
-				new Bullet(currentPowerup, frameCounter, d,
-					getImage("images/weapons.png", 0, 255, 255));
-			
-			if(isFacingRight)
-			{
-				newBullet.position(player.x() + player.width()/2,
-					player.y() + player.height()/2 - 16);
-			}
-			else if(isFacingLeft)
-			{
-				newBullet.position(player.x() - player.width()/2,
-						player.y() + player.height()/2 - 16);
-			}
-			
-			if(bullets.isEmpty())
-			{
-				bullets.add(newBullet);
-			}
-			else
-			{	
-				if(fireOK)
-				{
-					bullets.add(newBullet);
-					fireOK = false;
-				}
-			}
 		}
 	}
-	
+
 	//screen drawing
 	////////////////
 	public void drawScreens()
@@ -755,20 +635,20 @@ public class Main extends Ucigame
 			screens.get(index).draw();
 		}
 	}
-	
+
 	//floor drawing
 	///////////////
 	public void drawFloors()
 	{
-		for(int i = 0; !floors.isEmpty() && i < floorDrawLimit; i++)
+		for(int i = 0; i < floorDrawLimit; i++)
 		{
 			floors.get(i).draw();
 		}
 	}
-	
-	//animation check is handled here
-	/////////////////////////////////
-	public void drawPlayer()
+
+	//animation check
+	/////////////////
+	public void animationCheck()
 	{
 		if(!isRunning)
 		{
@@ -776,7 +656,7 @@ public class Main extends Ucigame
 			{
 				player.flipHorizontal();
 			}
-			
+
 			if(isFiring)
 			{
 				player.play("StandFiring");
@@ -785,7 +665,7 @@ public class Main extends Ucigame
 			{
 				player.play("Standing");
 			}
-			
+
 			player.draw();
 		}
 		else
@@ -794,7 +674,7 @@ public class Main extends Ucigame
 			{
 				player.flipHorizontal();
 			}
-			
+
 			if(isFiring)
 			{
 				player.play("RunFiring");
@@ -803,96 +683,46 @@ public class Main extends Ucigame
 			{
 				player.play("Running");
 			}
-			
+
 			player.draw();
 		}
-		
+
 		isRunning = false;
 		isFiring = false;
-		
+
 		leftPressed = false;
 		rightPressed = false;
 	}
-	
-	//bullets drawing
-	/////////////////
-	public void drawBullets()
-	{
-		for(int b = 0; b < bullets.size();b++)
-		{
-			bullets.get(b).draw();
-		}
-	}
-	
-	//monster drawing
-	/////////////////
-	public void drawMonsters()
-	{
-		for(int m = 0; !monsters.isEmpty() && m < monsterDrawLimit; m++)
-		{
-			monsters.get(m).draw();
-		}
-	}
-	
-	//powerup drawing
-	/////////////////
-	public void drawPowerups()
-	{
-		for(int p = 0; !powerups.isEmpty() && p < powerupDrawLimit; p++)
-		{
-			powerups.get(p).draw();
-		}
-	}
-	
+
 	//player movement and gravity effect
 	////////////////////////////////////
 	public void playerMovement()
 	{
 		player.move();
-		
+
 		if(player.y() > canvas.height())
 		{
 			player.nextY(canvas.height());
-			
-			//TODO restarts game
-			currentPowerup = 0;
+
+			//restarts game
 			setup();
 		}
 		else
 		{
-			player.motion(0, gravity, ADDONCE);
+			player.motion(0, speed);
 		}
-	}
-	
-	//bullets movement
-	//////////////////
-	public void bulletMovement()
-	{
-		for(int b = 0; b < bullets.size(); b++)
+
+		if(player.yspeed() < -8)
 		{
-			bullets.get(b).move();
+			player.motion(player.xspeed(), 0);
 		}
 	}
-	
-	//monster movement
-	//////////////////
-	public void monsterMovement()
-	{
-		for(int m = 0; !monsters.isEmpty() && m < monsterDrawLimit; m++)
-		{
-			if(monsters.get(m).isGravity())
-			{
-				monsters.get(m).motion(0, gravity, ADDONCE);
-			}
-			monsters.get(m).move();
-		}
-	}
-	
+
 	//collisions with floors
 	////////////////////////
-	public void playerFloorCollision()
+	public void floorCollision()
 	{
-		for(int f = 0; !floors.isEmpty() && f < floorDrawLimit; f++)
+		for(int f = 0; f < floorDrawLimit; f++)
 		{
 			player.checkIfCollidesWith(floors.get(f));
 			if(player.collided())
@@ -920,73 +750,7 @@ public class Main extends Ucigame
 			}
 		}
 	}
-	
-	//monster collisions with floors
-	////////////////////////////////
-	public void monsterFloorCollision()
-	{
-		for(int f = 0; !floors.isEmpty() && f < floorDrawLimit; f++)
-		{
-			for(int m = 0; !monsters.isEmpty() && m < monsterDrawLimit; m++)
-			{
-				monsters.get(m).checkIfCollidesWith(floors.get(f));
-				if(monsters.get(m).collided())
-				{
-					monsters.get(m).handleFloorCollision(floors.get(f));
-				}
-			}
-		}
-	}
-	
-	//bullet collisions with monsters
-	/////////////////////////////////
-	public void bulletCollision()
-	{
-		for(int b = 0; b < bullets.size(); b++)
-		{
-			for(int m = 0; !monsters.isEmpty() && m < monsterDrawLimit; m++)
-			{
-				bullets.get(b).checkIfCollidesWith(monsters.get(m));
-				if(bullets.get(b).collided())
-				{
-					//TODO will change this later to account for HP
-					monsters.get(m).position(canvas.width() * 2, canvas.height() * 2);
-				}
-			}
-		}
-	}
-	
-	//player collisions with monsters
-	/////////////////////////////////
-	public void playerMonsterCollision()
-	{
-		for(int m = 0; !monsters.isEmpty() && m < monsterDrawLimit; m++)
-		{
-			player.checkIfCollidesWith(monsters.get(m));
-			if(player.collided())
-			{
-				//TODO player death by monster
-				setup();
-			}
-		}
-	}
-	
-	//collision with powerups
-	/////////////////////////
-	public void powerupCollision()
-	{
-		for(int p = 0; !powerups.isEmpty() && p < powerupDrawLimit; p++)
-		{
-			player.checkIfCollidesWith(powerups.get(p));
-			if(player.collided())
-			{
-				currentPowerup = powerups.get(p).getType();
-				//TODO may change this later
-				powerups.get(p).position(canvas.width() * 2, canvas.height() * 2);
-			}
-		}
-	}
-	
+
 	//screen change is handled here
 	///////////////////////////////
 	public void screenChange()
@@ -997,29 +761,15 @@ public class Main extends Ucigame
 			{
 				index++;
 			}
-			
+
 			player.position(0, player.y());
-			
-			bullets.clear();
-			
+
 			//remove previous floors
-			for(int a = 0; !floors.isEmpty() && a < floorDrawLimit; a++)
+			for(int a = 0; a < floorDrawLimit; a++)
 			{
 				floors.remove(0);
 			}
-			
-			//remove previous monsters
-			for(int m = 0; !monsters.isEmpty() && m < monsterDrawLimit; m++)
-			{
-				monsters.remove(0);
-			}
-			
-			//remove previous powerups
-			for(int p = 0; !powerups.isEmpty() && p < powerupDrawLimit; p++)
-			{
-				powerups.remove(0);
-			}
-			
+
 			//changes to score menu at level's end
 			if(index >= screens.size())
 			{
@@ -1027,45 +777,33 @@ public class Main extends Ucigame
 			}
 		}
 	}
-	
+
 	//frame counter increment
 	/////////////////////////
 	public void incrementFrames()
 	{
 		frameCounter++;
-		
-		//handles fire rate of bullets
-		if(!bullets.isEmpty())
-		{
-			int frame = bullets.get(bullets.size() - 1).getStartFrame();
-			int rate = bullets.get(bullets.size() - 1).getFireRate();
-			
-			if(rate <= 0 || ((frameCounter - frame) % frameMod) % rate == 0)
-			{
-				fireOK = true;
-			}
-		}
-		
-		if(frameCounter % frameMod == 0)
+
+		if(frameCounter % 2400 == 0)
 		{
 			frameCounter = 0;
 		}
 	}
-	
+
 	///////////////
 	//Menus
 	//////////////
-	
+
 	//Score Menu
 	////////////
 	public void drawScoreMenu()
 	{
 		canvas.clear();
-		
+
 		//TODO score menu
 		canvas.background(0, 0, 0);
 	}
-	
+
 	public void onKeyPressScoreMenu()
 	{
 		if(keyboard.isDown(keyboard.ENTER))
@@ -1078,7 +816,7 @@ public class Main extends Ucigame
 			else
 			{
 				currentLevel = 0;
-				
+
 				//TODO go to main menu
 			}
 		}

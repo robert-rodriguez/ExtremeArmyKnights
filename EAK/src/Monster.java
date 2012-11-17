@@ -1,54 +1,139 @@
-import java.awt.geom.Point2D;
 
-import ucigame.Image;
-import ucigame.Sprite;
+import ucigame.*;
 
-
-public class Monster extends Sprite {
+//this class includes enemy projectiles, to make
+//things simpler
+public class Monster extends Sprite
+{
+	int type;
+	int startFrame;
+	int attackRate; //in frames
+	int damage;
+	int health;
 	
-	Point2D.Double start , end; 
-
-	public Monster(Image image) {
-		super(image);
-	}
+	boolean gravity;
+	boolean left;
+	boolean right;
+	boolean directionChange;
 	
-
-
-	/***
-	 * 
-	 * @param image
-	 * @param startPosition
-	 */
-	public Monster(Image image, Point2D.Double startPosition){
-		super(image);
-		this.position(startPosition.x, startPosition.y);
-		this.start = startPosition;
-	}
-	
-
-	/**
-	 * 
-	 * @param start
-	 * @param end
-	 * @param speed
-	 */
-	public void patrolPath(Point2D.Double end, double speed){
-
-		speed = speed/100.0;
-		this.end = end;		
-		this.motion(speed*(end.x - start.x), speed*(end.y-start.y));
-	}	
-	
-	public void patrol(){
+	public Monster(int t, int sf, Image img, int x, int y)
+	{
+		super(x, y);
 		
-		if((this.x()+this.xspeed() < start.x )|| (this.x()+this.xspeed() > end.x)){
-			this.motion(-1, 1, ucigame.Ucigame.MULTIPLY);
-		}
+		type = t;
+		startFrame = sf;
+		directionChange = false;
 		
-		if((this.y()+this.yspeed() < start.y )|| (this.y()+this.yspeed() > end.y)){
-			this.motion(1, -1, ucigame.Ucigame.MULTIPLY);
-			
+		attackRate = 0; //set to 0 here as a default for
+						//monsters with no attacks (monsters
+						//that only move, etc)
+		
+		//defaults
+		gravity = false;
+		left = true;
+		right = false;
+		
+		switch(type)
+		{
+			case 0:
+				this.addFrames(img,
+						2, 3,
+						22, 3,
+						42, 3,
+						61, 3,
+						80, 3,
+						100, 3,
+						120, 3,
+						138, 3);
+				this.framerate(20);
+				
+				gravity = true;
+				
+				break;
 		}
 	}
-
+	
+	public int getStartFrame()
+	{
+		return startFrame;
+	}
+	
+	public int getAttackRate()
+	{
+		return attackRate;
+	}
+	
+	public boolean isGravity()
+	{
+		return gravity;
+	}
+	
+	public void changeDirection()
+	{
+		left = !left;
+		right = !right;
+		directionChange = !directionChange;
+	}
+	
+	public void draw()
+	{
+		if(directionChange)
+		{
+			this.flipHorizontal();
+		}
+		super.draw();
+	}
+	
+	public void move()
+	{
+		switch(type)
+		{
+			case 0:
+				standardGroundMove();
+				break;
+		}
+	}
+	
+	private void standardGroundMove()
+	{
+		if(left)
+		{
+			this.motion(-2, 0);
+		}
+		else if(right)
+		{
+			this.motion(2, 0);
+		}
+		super.move();
+	}
+	
+	public void handleFloorCollision(Sprite f)
+	{
+		switch(type)
+		{
+			case 0:
+				standardFloorCollision(f);
+				break;
+		}
+	}
+	
+	private void standardFloorCollision(Sprite f)
+	{
+		if(this.y() <= (f.y() - this.height()))
+		{
+			this.nextY(f.y() - this.height());
+		}
+		else
+		{
+			if(this.y() >= (f.y() + f.height()))
+			{
+				this.nextY(f.y() + f.height());
+			}
+			else
+			{
+				this.nextX(this.x());
+				this.changeDirection();
+			}
+		}
+	}
 }
