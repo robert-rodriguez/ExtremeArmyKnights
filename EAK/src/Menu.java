@@ -108,7 +108,7 @@ public class Menu extends Main{
 	
     public void onClickStartBtn()
     {
-        super.setup();
+        print("Start functionaliy\n");
     }
     
     public void onClickLeaderboardBtn()
